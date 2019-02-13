@@ -1,7 +1,6 @@
 const defaultState = {
-  width : document.body.clientWidth - 18,
+  width : document.body.clientWidth,
   height : document.body.clientHeight > 500? document.body.clientHeight: 500,
-  scrollTop: 0
 }
 
 const viewState = (state = defaultState, action) => {

@@ -1,0 +1,124 @@
+#wrap {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#main {
+    width: 1217px;
+    height: 684px;
+    background: rgba(0, 0, 0, .54);
+    position: relative;
+}
+
+#main>nav {
+    height: 71px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.logo {
+    margin-left: 15px;
+    margin-right: 13px;
+}
+
+.title > li:first-child {
+    width: 80px;
+    height: 17px;
+    line-height: 17px;
+    opacity: .87;
+    font-size: 15px;
+    color: rgba(255, 255, 255, .87);
+    font-family: Roboto;
+}
+
+.title > li:last-child  {
+    width: 56px;
+    height: 14px;
+    line-height: 14px;
+    opacity: 0.87;
+    font-family: NotoSansCJKsc;
+    font-size: 8.87px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, .87);
+  }
+
+.mainTitle {
+    text-align: center;
+    color: rgba(255, 255, 255, .87);
+    text-shadow: 0 4px 6px rgba(0, 0, 0, .26);
+    font-size: 30px;
+    font-family: NotoSansCJKsc;
+    margin-top: 95.7px;
+    margin-bottom: 34.2px;
+    height: 25px;
+    line-height: 25px;
+}
+
+.inputBox > div {
+    position: relative;
+    width: 291.6px;
+    height: 30px;
+    margin: 0 auto;
+}
+
+.inputBox input {
+    width: 291.6px;
+    height: 30px;
+    border: 0;
+    background: #00695c;
+    font-size: 12px;
+    box-sizing: border-box;
+    padding-left: 15.21px;
+    color: rgba(255, 255, 255, .9);
+    border-radius: 5px;
+}
+
+.inputBox input.hidden {
+    visibility: hidden;
+}
+
+.inputBox input.finish {
+    background: transparent;
+    color: rgba(255, 255, 255, 1);
+}
+
+input.finish + img {
+    visibility: hidden;
+}
+
+.inputBox input.finish img {
+    visibility: hidden
+}
+
+.inputBox input::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, .26)
+}
+
+.inputBox img {
+    position: absolute;
+    right: 12.68px;
+    top: 8px;
+    width: 14px;
+    cursor: pointer;
+}
+
+.remember {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    margin-top: 74.8px;
+}
+
+#main > footer {
+    font-size: 12px;
+    color: rgba(255, 255, 255, .38);
+    text-align: center;
+    position: absolute;
+    bottom: 17.11px;
+    width: 100%;
+}
+
+
