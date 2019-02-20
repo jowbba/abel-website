@@ -1,0 +1,71 @@
+.nav {
+    height: 71px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav > span {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav > span:last-child {
+    color: rgba(0, 0, 0, .54)
+}
+
+.username { margin-right: 9px;}
+
+.userLogo { margin-right: 8px; cursor: pointer; }
+
+.menu {
+    display: flex;
+    align-items: center;
+    height: 54px;
+}
+
+.arrow { 
+    margin-right: 34px;
+    border: 5px solid transparent;
+    cursor: pointer;
+}
+
+.arrow.down {
+    border-top-color: rgba(0, 0, 0, .54);
+    margin-top: 4.5px;
+}
+
+.arrow.up {
+    border-bottom-color: rgba(0, 0, 0, .54);
+    margin-top: -4.5px;
+}
+
+.question { margin-right: 50px; cursor: pointer;}
+
+.logo {
+    margin-left: 15px;
+    margin-right: 13px;
+}
+
+.title > li:first-child {
+    width: 80px;
+    height: 17px;
+    line-height: 17px;
+    opacity: .87;
+    font-size: 15px;
+    color: rgba(255, 255, 255, .87);
+    font-family: Roboto;
+}
+
+.title > li:last-child  {
+    width: 56px;
+    height: 14px;
+    line-height: 14px;
+    opacity: 0.87;
+    font-family: NotoSansCJKsc;
+    font-size: 8.87px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, .87);
+  }

@@ -3,6 +3,7 @@ import { render }  from 'react-dom'
 import { BrowserRouter, HashRouter, Route, Link, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import Home from './components/login/login'
+import Main from './components/main/main'
 import NoMatch from './components/nomatch/noMatch'
 // import 'Font/font.css'
 import 'Css/index.css'
@@ -31,6 +32,7 @@ class App extends React.Component {
       <div style={{height: '100%'}}>
         <Switch>
           <Route exact path='/' component={Home}/>
+          <Route exact path='/main' component={Main}/>
           <Route component={NoMatch}/>
         </Switch>
       </div>

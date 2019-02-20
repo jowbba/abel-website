@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Nav from '../common/nav.jsx'
 import store from '../../store/store'
 import Action from '../../action/action'
-import { FormControlLabel, Avatar, Checkbox, Snackbar } from '@material-ui/core'
+import { FormControlLabel, Checkbox, Snackbar } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import css from 'Css/login'
 
@@ -45,10 +46,11 @@ class Login extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    let { user, list } = this.props.user
-    console.log(user && list)
+    let { user, list } = props.user
     if (user && list) {
       console.log('after login')
+      console.log(list)
+      this.props.history.push('/main')
     }
   }
 
@@ -71,13 +73,7 @@ class Login extends React.Component {
         {/* 主体 */}
         <div id={css.main}>
           {/* 顶部 */}
-          <nav>
-            <Avatar src={require('Image/logo.png')} className={css.logo} />
-            <ul className={css.title}>
-              <li>WISNUC</li>
-              <li>设备管理</li>
-            </ul>
-          </nav>
+          <Nav/>
           {/* 标题 */}
           <div className={css.mainTitle}>账户登录</div>
           {/* 输入框 */}
@@ -216,7 +212,6 @@ class Login extends React.Component {
     req.setRequestHeader('Authorization', token)
     req.send()
   }
-
 }
 
 var mapStateToProps = state => {

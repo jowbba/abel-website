@@ -12,39 +12,6 @@
     position: relative;
 }
 
-#main>nav {
-    height: 71px;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-}
-
-.logo {
-    margin-left: 15px;
-    margin-right: 13px;
-}
-
-.title > li:first-child {
-    width: 80px;
-    height: 17px;
-    line-height: 17px;
-    opacity: .87;
-    font-size: 15px;
-    color: rgba(255, 255, 255, .87);
-    font-family: Roboto;
-}
-
-.title > li:last-child  {
-    width: 56px;
-    height: 14px;
-    line-height: 14px;
-    opacity: 0.87;
-    font-family: NotoSansCJKsc;
-    font-size: 8.87px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, .87);
-  }
-
 .mainTitle {
     text-align: center;
     color: rgba(255, 255, 255, .87);
@@ -120,5 +87,3 @@ input.finish + img {
     bottom: 17.11px;
     width: 100%;
 }
-
-
