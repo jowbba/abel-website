@@ -1,7 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import store from '../../store/store'
-import Action from '../../action/action'
 import { } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import css from 'Css/main'
@@ -19,6 +17,19 @@ class Main extends React.Component {
     this.state = {
       station: null
     }
+  }
+
+  componentWillReceiveProps(props) {
+    
+  }
+
+  shouldComponentUpdate(props, state) {
+    let { user, list } = props.user
+    
+    if (!user || !list) {
+      this.props.history.push('/')
+      return false
+    } else return true
   }
 
   render() {
@@ -43,7 +54,7 @@ class Main extends React.Component {
 
           </div>
         </div>
-        {!!station?<Dialog close={this.close.bind(this)}/>: null}
+        {!!station?<Dialog station={station} close={this.close.bind(this)}/>: null}
         
       </div>
     )

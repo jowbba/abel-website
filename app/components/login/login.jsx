@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import Nav from '../common/nav.jsx'
 import store from '../../store/store'
 import Action from '../../action/action'
@@ -48,7 +47,6 @@ class Login extends React.Component {
   componentWillReceiveProps(props) {
     let { user, list } = props.user
     if (user && list) {
-      console.log('after login')
       console.log(list)
       this.props.history.push('/main')
     }

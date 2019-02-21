@@ -10,6 +10,9 @@ const userState = (state = defaultState, action) => {
 
     case 'SET_LIST':
       return Object.assign({}, state, { list: action.list })
+
+    case 'LOGOUT':
+      return Object.assign({}, state, { user: null, list: null })
     default:
       return state
   }

@@ -182,7 +182,7 @@
     border-bottom: 1px solid rgba(0, 0, 0, .12);
 }
 
-.password:focus { outline: none;}
+.password:focus { outline: none }
 
 .passwordContainer img {
     position: absolute;
@@ -190,6 +190,31 @@
     top: 12px;
     cursor: pointer;
 }
+
+/* ticket */
+.ticketInput { 
+    overflow: hidden;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+}
+
+.ticketInput input {
+    width: 40px;
+    border:none;
+    border-bottom: 2px solid rgba(0, 0, 0, .26);
+    margin-right: 16px;
+    text-align: center;
+}
+
+.ticketInput input:focus { outline: none }
+
+.ticketInput > span {
+    float: right;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
 
 /* radio */
 
@@ -229,4 +254,29 @@
     top: 5px;
     cursor: pointer;
 }
+
+/* message */
+.message {
+    margin-top: 76px;
+    text-align: center;
+}
+
+.messageTitle {
+    font-size: 21px;
+    color: rgba(0, 0, 0, .87);
+    height: 18px;
+    line-height: 18px;
+    margin-top: 36px;
+    font-family: 'Roboto';
+}
+
+.messageDes {
+    font-size: 14px;
+    height: 14px;
+    line-height: 14px;
+    margin-top: 9px;
+    color: rgba(0, 0, 0, .54);
+}
+
+
 

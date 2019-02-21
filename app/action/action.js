@@ -2,7 +2,7 @@
  * @Author: harry.liu 
  * @Date: 2019-02-15 16:22:52 
  * @Last Modified by: harry.liu
- * @Last Modified time: 2019-02-15 17:47:09
+ * @Last Modified time: 2019-02-21 11:41:15
  */
 
 export default {
@@ -25,5 +25,9 @@ export default {
       type: 'SET_LIST',
       list
     }
+  },
+
+  logout() {
+    return { type: 'LOGOUT'}
   }
 }

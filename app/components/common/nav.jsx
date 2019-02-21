@@ -1,7 +1,10 @@
 import React from 'react'
 import { Avatar, Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem, Button } from '@material-ui/core'
 import css from 'Css/common'
+import store from '../../store/store'
+import Action from '../../action/action'
 import { withStyles } from '@material-ui/core/styles'
+import { connect } from 'react-redux'
 
 const styles = {
   menu: { width: '140px' },
@@ -15,7 +18,7 @@ class Nav extends React.Component {
   }
 
   render() {
-    let { height, bgColor, color } = this.props
+    let { height, bgColor, color, user } = this.props
     let style = { height, background: bgColor }
     let style1 = { color }
     let { anchorEl, open } = this.state
@@ -30,7 +33,7 @@ class Nav extends React.Component {
           </ul>
         </span>
 
-        <span>
+        {!!user.user?<span>
           <span className={css.username}>13621766832</span>
           <span className={css.menu} onClick={this.handleToggle.bind(this)}>
             <img className={css.userLogo} src={require('Image/1241-2.png')} alt="" />
@@ -41,7 +44,7 @@ class Nav extends React.Component {
           <img className={css.question} 
             src={require('Image/1296.svg')} onClick={this.props.faq}
           />
-        </span>
+        </span>:null}
 
         <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
             {({ TransitionProps, placement }) => (
@@ -80,8 +83,19 @@ class Nav extends React.Component {
       return;
     }
 
-    this.setState({ open: false });
+    store.dispatch(Action.logout())
+
+    this.setState({ open: false })
+
+  }
+  
+}
+
+var mapStateToProps = state => {
+  return {
+    user: state.user,
+    view: state.view
   }
 }
 
-module.exports = withStyles(styles)(Nav)
+module.exports = connect(mapStateToProps)(withStyles(styles)(Nav))
