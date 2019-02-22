@@ -1,14 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import { Paper, Button, Checkbox } from '@material-ui/core'
+import { Paper, Button, Snackbar } from '@material-ui/core'
+import api from '../../lib/api'
 import css from 'Css/main'
 
 class Dialog extends React.Component {
   constructor() {
     super()
     this.state = {
-      step: 'failed',
+      open: false,
+      message: '',
+      step: 'ticket',
       inputType: 'text',
       password: '',
       ticketTime: 0,
@@ -16,15 +19,21 @@ class Dialog extends React.Component {
       isDelete: true,
       clean: 'fast',
       manager: null,
-      color: null
+      color: null,
+
     }
   }
 
   render() {
     let { classes, close, user, station } = this.props
-    let { step, inputType, password, ticketTime} = this.state
+    let { step, inputType, password, ticketTime, open, message } = this.state
     return (
       <div id={css.dialogFrame}>
+        <Snackbar onClose={this.handleClose.bind(this)} anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }} open={open} autoHideDuration={3000} message={message} />
+
         <Paper className={css.dialog} classes={{
           root: classes.root
         }}>
@@ -86,16 +95,39 @@ class Dialog extends React.Component {
     )
   }
 
-  submit(step) {
-    let { station } = this.props
+  handleClose() { this.setState({ open: false })}
+
+  async submit(step) {
+    let { password, ticket } = this.state
+    let { station, user } = this.props
+    let username = user.user.username
     let { mark } = station
-    console.log(station)
     if (step == 'password') {
       // 验证密码
-      this.setState({ step: 'ticket'})
+      try {
+        let result = await api.login(username, password)
+        this.setState({ step: 'ticket'})
+      } catch (error) {
+        let message = '密码验证失败'
+        this.setState({ open: true, message })
+      }
+      
+      
     } else if (step == 'ticket') {
       // 验证手机验证码
-      this.setState({ step: 'isDelete'})
+      try {
+        let code = ''
+        ticket.forEach(item => {
+          if (!item) throw new Error()
+          code += item
+        })
+        let result = await api.getTicket(username, code)
+        this.setState({ step: 'isDelete'})
+      } catch (error) {
+        let message = '验证码错误'
+        this.setState({ open: true, message})
+      }
+      
     }else if (step == 'isDelete') {
       // 是否删除本地数据
       this.setState({ step: 'clean'})
@@ -125,8 +157,16 @@ class Dialog extends React.Component {
   // 发送验证码
   sendCode() {
     if (this.state.ticketTime !== 0) return
-    this.setState({ ticketTime: 60}, () => {
+    this.setState({ ticketTime: 60}, async () => {
       // api
+      try {
+        let username = this.props.user.user.username
+        let result = await api.sendCode(username)
+      } catch (error) {
+        console.log('error,.,...........................')
+        let message = '发送验证码失败'
+        this.setState({ open: true, message })
+      }
       // timer
       let timer = setInterval(() => {
         let { ticketTime } = this.state

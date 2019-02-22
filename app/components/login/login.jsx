@@ -6,6 +6,7 @@ import Action from '../../action/action'
 import { FormControlLabel, Checkbox, Snackbar } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import css from 'Css/login'
+import api from '../../lib/api'
 
 const base = `https://test.nodetribe.com/c/v1`
 
@@ -21,7 +22,7 @@ const styles = {
       color: 'rgba(255, 255, 255, .87)',
     },
   },
-  checked: { }
+  checked: {}
 }
 
 class Login extends React.Component {
@@ -40,7 +41,7 @@ class Login extends React.Component {
   componentDidMount() {
     let username = localStorage.getItem('username')
     if (username) {
-      this.setState({ remember: true, username}, this.next)
+      this.setState({ remember: true, username }, this.next)
     }
   }
 
@@ -65,34 +66,34 @@ class Login extends React.Component {
     return (
       <div id={css.wrap} style={wrapStyle}>
         <Snackbar onClose={this.handleClose.bind(this)} anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }} open={open} autoHideDuration={3000} message={message}/>
+          vertical: 'bottom',
+          horizontal: 'center',
+        }} open={open} autoHideDuration={3000} message={message} />
         {/* 主体 */}
         <div id={css.main}>
           {/* 顶部 */}
-          <Nav/>
+          <Nav />
           {/* 标题 */}
           <div className={css.mainTitle}>账户登录</div>
           {/* 输入框 */}
           <div className={css.inputBox}>
             <div>
-              <input className={step!==1?css.finish:''} 
+              <input className={step !== 1 ? css.finish : ''}
                 type="text" placeholder='输入帐号' value={username}
                 onChange={this.input.bind(this, 'username')}
                 onFocus={this.focus.bind(this)}
                 onKeyUp={this.keyUp.bind(this)}
                 onKeyDown={this.preventDefault.bind(this)}
-                />
-              <img src={require('Image/arrow.png')} onClick={this.next.bind(this)}/>
+              />
+              <img src={require('Image/arrow.png')} onClick={this.next.bind(this)} />
             </div>
             <div>
-              <input ref='password' className={step==1?css.hidden:''} 
+              <input ref='password' className={step == 1 ? css.hidden : ''}
                 type="password" placeholder='输入密码' value={password}
                 onChange={this.input.bind(this, 'password')}
                 onKeyUp={this.keyUp.bind(this)}
               />
-              <img src={require('Image/arrow.png')} onClick={this.submit.bind(this)}/>
+              <img src={require('Image/arrow.png')} onClick={this.submit.bind(this)} />
             </div>
           </div>
           {/* 记住账号选项 */}
@@ -127,7 +128,7 @@ class Login extends React.Component {
     })
   }
 
-  handleClose() { this.setState({ open: false })}
+  handleClose() { this.setState({ open: false }) }
 
   preventDefault(e) {
     if (e.keyCode == '9') e.preventDefault()
@@ -139,76 +140,59 @@ class Login extends React.Component {
     else if (code == '13' && this.state.step == 2) this.submit()
   }
 
-  next(event) {
+  async next() {
     let { step, username } = this.state
     if (step == 1) {
-      let url = `${base}/user/phone/check?phone=${username}`
-      let req = new XMLHttpRequest()
-      req.onreadystatechange = () => {
-        if (req.readyState==4 && req.status==200) {
-          let result = JSON.parse(req.responseText)
-          if (result.data.userExist) {
-            this.setState({step: 2}, () => {
-              this.refs.password.focus()
-            })
-          } else this.setState({open: true, message: '用户名不存在'})
-          
-        } else if (req.readyState == 4 && req.status !== 200) {
-          this.setState({open: true, message: '用户名不存在'})
-        }  
+
+      try {
+        let result = await api.checkUsername(username)
+        if (result.data.userExist) {
+          this.setState({ step: 2 }, () => {
+            this.refs.password.focus()
+          })
+        } else this.setState({ open: true, message: '用户名不存在' })
+      } catch (error) {
+        this.setState({ open: true, message: '检查用户名错误' })
       }
-      req.open('GET', url, true)
-      req.send()      
+
     } else if (step == 2) this.submit()
   }
 
   focus() {
-    this.setState({step: 1})
+    this.setState({ step: 1 })
   }
 
-  submit() {
+  async submit() {
     let { username, password, remember } = this.state
-    let url = `${base}/user/password/token?`
-    url += `username=${username}`
-    url += `&password=${password}`
-    url += `&clientId=web&type=web`
-    let req = new XMLHttpRequest()
-    req.onreadystatechange = () => {
-      if (req.readyState==4 && req.status==200) {
-        let result = JSON.parse(req.responseText).data
-        if (remember) localStorage.setItem('username', username)
-        else if (!remember) localStorage.clear()
-        store.dispatch(Action.setUser(result))
-        this.getStationList(result)
-      } else if (req.readyState == 4 && req.status !== 200) {
-        let message = JSON.parse(req.responseText).message
-        this.setState({open: true, message})
-      }
+    try {
+      let result = await api.login(username, password)
+      if (remember) localStorage.setItem('username', username)
+      else if (!remember) localStorage.clear()
+      store.dispatch(Action.setUser(result.data))
+      this.getStationList(result.data)
+
+    } catch (error) {
+      this.setState({ open: true, message: '登录失败' })
     }
-    req.open('GET', url, true)
-    req.send()
+
   }
 
   check(event, checked) {
     this.setState({ remember: checked })
   }
 
-  getStationList(user) {
+  async getStationList(user) {
     let { token } = user
-    let url = `${base}/station`
-    let req = new XMLHttpRequest()
-    req.onreadystatechange = () => {
-      if (req.readyState==4 && req.status==200) {
-        let list = JSON.parse(req.responseText).data
-        store.dispatch(Action.setList(list))
-      } else if (req.readyState == 4 && req.status !== 200) {
-        let message = '获取设备列表错误'
-        this.setState({open: true, message})
-      }
+
+    try {
+      let result = await api.getStationList(token)
+      let list = result.data
+      store.dispatch(Action.setList(list))
+    } catch (error) {
+      console.log(error)
+      let message = '获取设备列表错误'
+      this.setState({ open: true, message })
     }
-    req.open('GET', url, true)
-    req.setRequestHeader('Authorization', token)
-    req.send()
   }
 }
 

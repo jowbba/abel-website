@@ -10,7 +10,7 @@ console.log(path.join(__dirname, 'public'))
  module.exports = {
   // 项目入口文件
   entry: {
-    app: path.join(__dirname, 'app', 'app.js'),
+    app: ['babel-polyfill', path.join(__dirname, 'app', 'app.js')],
     // 提取第三方库
     vendor: ['react', 'react-dom', 'react-router-dom', 'react-redux', 'redux']
   },
