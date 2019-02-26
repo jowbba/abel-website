@@ -221,6 +221,14 @@
 .radio {
     height: 48px;
     line-height: 48px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-content: center;
+}
+
+.radio.twoRow {
+    height: 64px;
+    line-height: 64px;
 }
 
 .radio input[type=radio] {
@@ -228,13 +236,31 @@
 }
 
 .radio label {
-    height: 48px;
-    line-height: 48px;
     display: inline-block;
 }
 
+.radio label ul {
+    height: 64px;
+    line-height: 64px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+.radio label ul li {
+    height: 14px;
+    line-height: 14px;
+}
+
+.radio label ul li:first-child {
+    margin-bottom: 7px;
+}
+
+.radio label ul li:nth-child(2) {
+    color: rgba(0, 0, 0, .54);
+}
+
 .selected:before {
-    display: inline-block;
     width: 20px;
     height: 20px;
     content: url('Image/1302.png');
@@ -242,10 +268,10 @@
     position: relative;
     top: 5px;
     cursor: pointer;
+    float: left;
 }
 
 .notSelected:before {
-    display: inline-block;
     width: 20px;
     height: 20px;
     content: url('Image/1303.png');
@@ -253,6 +279,7 @@
     position: relative;
     top: 5px;
     cursor: pointer;
+    float: left;
 }
 
 /* message */

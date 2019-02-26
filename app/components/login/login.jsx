@@ -47,10 +47,7 @@ class Login extends React.Component {
 
   componentWillReceiveProps(props) {
     let { user, list } = props.user
-    if (user && list) {
-      console.log(list)
-      this.props.history.push('/main')
-    }
+    if (user) this.props.history.replace('/main')
   }
 
   render() {
@@ -169,7 +166,7 @@ class Login extends React.Component {
       if (remember) localStorage.setItem('username', username)
       else if (!remember) localStorage.clear()
       store.dispatch(Action.setUser(result.data))
-      this.getStationList(result.data)
+      // this.getStationList(result.data)
 
     } catch (error) {
       this.setState({ open: true, message: '登录失败' })

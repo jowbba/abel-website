@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { } from '@material-ui/core'
+import store from '../../store/store'
+import Action from '../../action/action'
 import { withStyles } from '@material-ui/core/styles'
 import css from 'Css/main'
 import Nav from '../common/nav'
 import Card from './card'
 import Dialog from './dialog'
+import api from '../../lib/api'
 
 const styles = {
   
@@ -20,25 +22,27 @@ class Main extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    
+    let { user } = props.user
+    if (!user) {
+      this.props.history.replace('/')
+    }
   }
 
-  shouldComponentUpdate(props, state) {
-    let { user, list } = props.user
-    
-    if (!user || !list) {
-      this.props.history.push('/')
-      return false
-    } else return true
+  componentDidMount() {
+    this.refreshList()
   }
 
   render() {
+    let arr = []
     let { user, list } = this.props.user
     let { station } = this.state
-    let { ownStations, sharedStations } = list
-    ownStations.forEach(item => item.mark = 'own')
-    sharedStations.forEach(item => item.mark = 'share')
-    let arr = ownStations.concat(sharedStations)
+    if (list) {
+      let { ownStations, sharedStations } = list
+      ownStations.forEach(item => item.mark = 'own')
+      sharedStations.forEach(item => item.mark = 'share')
+      arr = ownStations.concat(sharedStations)
+    }
+    
     return (
       <div style={{width: '100%', height: '100%'}}>
         <Nav height='112px' bgColor='rgba(0,0,0,.04)' color='rgba(0,0,0,.87)' 
@@ -54,7 +58,7 @@ class Main extends React.Component {
 
           </div>
         </div>
-        {!!station?<Dialog station={station} close={this.close.bind(this)}/>: null}
+        {!!station?<Dialog refresh={this.refreshList.bind(this)} station={station} close={this.close.bind(this)}/>: null}
         
       </div>
     )
@@ -75,6 +79,16 @@ class Main extends React.Component {
 
   faq() {
     console.log('faq')
+  }
+
+  async refreshList() {
+    try {
+      let { token } = this.props.user.user
+      let result = await api.getStationList(token)
+      let list = result.data
+      console.log(list)
+      store.dispatch(Action.setList(list))
+    } catch(error) { }
   }
 }
 

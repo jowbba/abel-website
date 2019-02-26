@@ -1,4 +1,5 @@
-const base = `http://localhost:443/c/v1`
+var base = `http://localhost:443/c/v1`
+// base = 'https://test.nodetribe.com/c/v1'
 
 const createReq = (url, type, token, body) => {
   return new Promise((resolve, reject) => {
@@ -44,10 +45,20 @@ const apis = {
   },
 
   getTicket: (phone, code) => {
-    console.log(code)
     let url = `/user/smsCode/ticket`
     return createReq(url, 'post', null, { phone, code, type: 'deviceChange' })
   },
+
+  getStationUsers: (token, sn) => {
+    let url = `/station/${sn}/user`
+    return createReq(url, 'get', token)
+  },
+
+  deleteStation: (token, sn, ticket, manager) => {
+    let url = `/station?_method=DELETE`
+    let body = { sn, ticket, manager }
+    return createReq(url, 'post', token, body)
+  }
 }
 
 module.exports = apis
